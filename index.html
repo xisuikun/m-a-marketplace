@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>M&A Marketplace - Laravel 12 Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  </head>
+  <body class="bg-slate-50 font-sans text-slate-900">
+    <div id="root">
+        <!-- Dashboard Mockup (Matching your Laravel Blade Structure) -->
+        <nav class="bg-white border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex">
+                        <div class="flex-shrink-0 flex items-center">
+                            <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                                MNAPlatform
+                            </span>
+                        </div>
+                        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                            <a href="#" class="border-blue-500 text-slate-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Marketplace</a>
+                            <a href="#" class="border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">My Deals</a>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="#" class="text-slate-500 hover:text-slate-700 text-sm font-medium">Sign in</a>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">Register</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="space-y-8">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h1 class="text-3xl font-bold text-slate-900">M&A Marketplace</h1>
+                        <p class="text-slate-500 mt-2">Discover verified companies ready for acquisition. <span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-xs ml-2">Displaying generated Blade Template Preview</span></p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <input type="text" placeholder="Search industries..." class="px-4 py-2 border border-slate-200 rounded-lg outline-none">
+                        <button class="bg-slate-900 text-white px-4 py-2 rounded-lg">Filter</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Deal Card 1 -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">SaaS & Software</span>
+                                <span class="text-slate-400 text-xs font-medium uppercase tracking-widest"><i class="fa fa-shield-halved"></i> Verified</span>
+                            </div>
+                            <h3 class="mt-4 text-xl font-bold text-slate-900">Project CloudNative</h3>
+                            <p class="mt-2 text-slate-600 text-sm">A rapidly growing Kubernetes-native monitoring platform with $1.2M ARR.</p>
+                            
+                            <div class="mt-6 grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">Revenue</p>
+                                    <p class="text-lg font-bold text-slate-900">$1,200,000</p>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">EBITDA</p>
+                                    <p class="text-lg font-bold text-slate-900">$420,000</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <p class="text-[10px] text-slate-400 uppercase font-bold">Asking Price</p>
+                                    <p class="text-xl font-extrabold text-blue-600">$4,500,000</p>
+                                </div>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider">View Deal</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deal Card 2 -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start">
+                                <span class="bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">E-commerce</span>
+                                <span class="text-slate-400 text-xs font-medium tracking-widest uppercase"><i class="fa fa-lock"></i> Confidential</span>
+                            </div>
+                            <h3 class="mt-4 text-xl font-bold text-slate-900">Direct-to-Consumer Brand</h3>
+                            <p class="mt-2 text-slate-600 text-sm">Leading sustainable lifestyle brand in the EU market with primary sales via Shopify.</p>
+                            
+                            <div class="mt-6 grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">Revenue</p>
+                                    <p class="text-lg font-bold text-slate-900">$3,500,000</p>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">EBITDA</p>
+                                    <p class="text-lg font-bold text-slate-900">$850,000</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <p class="text-[10px] text-slate-400 uppercase font-bold">Asking Price</p>
+                                    <p class="text-xl font-extrabold text-blue-600">$5,800,000</p>
+                                </div>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider">View Deal</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+  </body>
+</html>
+
