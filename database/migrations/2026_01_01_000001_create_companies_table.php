@@ -15,7 +15,11 @@ return new class extends Migration
             $table->string('industry');
             $table->text('description')->nullable();
             $table->string('website')->nullable();
+            
             $table->string('registration_number')->nullable();
+            $table->boolean('is_public')->default(true);
+            $table->string('location')->nullable();
+            $table->json('social_links')->nullable(); // LinkedIn, etc
             $table->timestamps();
         });
     }

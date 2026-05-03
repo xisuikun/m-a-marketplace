@@ -19,18 +19,47 @@
                         </span>
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="/marketplace" class="border-blue-500 text-slate-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Marketplace</a>
-                        <a href="/deals" class="border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">My Deals</a>
-                        <a href="/offers" class="border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Offers</a>
+                        <a href="/" class="{{ request()->is('/') ? 'border-blue-500 text-slate-900' : 'border-transparent text-slate-500' }} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Marketplace</a>
+                        @auth
+                            <a href="/dashboard" class="{{ request()->is('dashboard*') ? 'border-blue-500 text-slate-900' : 'border-transparent text-slate-500' }} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Dashboard</a>
+                        @endauth
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">List Your Company</button>
-                    <div class="h-8 w-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold">JD</div>
+                    @guest
+                        <a href="/login" class="text-slate-500 hover:text-slate-700 text-sm font-medium">Sign in</a>
+                        <a href="/register" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition">Register</a>
+                    @else
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm text-slate-600 font-medium">{{ Auth::user()->name }}</span>
+                            <form action="/logout" method="POST">
+                                @csrf
+                                <button type="submit" class="text-slate-400 hover:text-red-500 transition"><i class="fa fa-sign-out"></i></button>
+                            </form>
+                        </div>
+                    @endguest
                 </div>
             </div>
         </div>
     </nav>
+
+    @if(session('success'))
+        <div class="max-w-7xl mx-auto px-4 mt-4 sm:px-6 lg:px-8">
+            <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl flex items-center justify-between shadow-sm">
+                <span class="text-sm font-medium"><i class="fa fa-check-circle mr-2"></i> {{ session('success') }}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="text-emerald-400 hover:text-emerald-600 transition">✕</button>
+            </div>
+        </div>
+    @endif
+
+    @if(session('error') || $errors->any())
+        <div class="max-w-7xl mx-auto px-4 mt-4 sm:px-6 lg:px-8">
+            <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl flex items-center justify-between shadow-sm">
+                <span class="text-sm font-medium"><i class="fa fa-exclamation-circle mr-2"></i> {{ session('error') ?? $errors->first() }}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="text-red-400 hover:text-red-600 transition">✕</button>
+            </div>
+        </div>
+    @endif
 
     <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         @yield('content')

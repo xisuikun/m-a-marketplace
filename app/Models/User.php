@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasMany; 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -53,9 +53,27 @@ class User extends Authenticatable
         return $this->hasMany(Company::class);
     }
 
+    // NDAs signed by this user (if buyer)
+    public function ndas(): HasMany
+    {
+        return $this->hasMany(Nda::class);
+    }
+
     // Offers made by this user (if buyer)
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class);
+    }
+
+    // Messages sent
+    public function sentMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    // Messages received
+    public function receivedMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
     }
 }

@@ -30,6 +30,12 @@ class Company extends Model
         return $this->hasMany(Deal::class);
     }
 
+    // Ownership Structure
+    public function shareholders(): HasMany
+    {
+        return $this->hasMany(Shareholder::class);
+    }
+
     // Documents (Due Diligence files etc)
     public function documents(): MorphMany
     {

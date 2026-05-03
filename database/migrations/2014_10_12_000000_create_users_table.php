@@ -8,15 +8,21 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $name) {
-            $name->id();
-            $name->string('name');
-            $name->string('email')->unique();
-            $name->timestamp('email_verified_at')->nullable();
-            $name->string('password');
-            $name->enum('role', ['admin', 'buyer', 'seller'])->default('buyer');
-            $name->rememberToken();
-            $name->timestamps();
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->enum('role', ['admin', 'buyer', 'seller', 'advisor'])->default('buyer');
+            
+            // KYC Fields
+            $table->boolean('is_verified')->default(false);
+            $table->string('passport_id')->nullable();
+            $table->string('linkedin_url')->nullable();
+            
+            $table->rememberToken();
+            $table->timestamps();
         });
     }
 
