@@ -41,7 +41,7 @@
                             </div>
                             <div class="flex gap-2">
                                 <a href="/deals/{{ $deal->id }}" class="p-2 text-slate-400 hover:text-blue-600"><i class="fa fa-eye"></i></a>
-                                <button class="p-2 text-slate-400 hover:text-slate-600"><i class="fa fa-edit"></i></button>
+                                <a href="/listings/{{ $deal->id }}/edit" class="p-2 text-slate-400 hover:text-slate-600"><i class="fa fa-edit"></i></a>
                             </div>
                         </div>
                     </div>

@@ -41,4 +41,6 @@ Route::middleware(['auth'])->group(function () {
     // Listings (Sellers)
     Route::get('/listings/create', [ListingController::class, 'create'])->name('listings.create');
     Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
+    Route::get('/listings/{deal}/edit', [ListingController::class, 'edit'])->name('listings.edit');
+    Route::put('/listings/{deal}', [ListingController::class, 'update'])->name('listings.update');
 });
