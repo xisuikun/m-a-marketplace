@@ -17,6 +17,11 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'is_verified',
+        'passport_id',
+        'face_verified_at',
+        'linkedin_url',
+        'country',
     ];
 
     protected $hidden = [
@@ -57,6 +62,18 @@ class User extends Authenticatable
     public function ndas(): HasMany
     {
         return $this->hasMany(Nda::class);
+    }
+
+    // KYC Requests
+    public function kycRequests(): HasMany
+    {
+        return $this->hasMany(KycRequest::class);
+    }
+
+    // Bookmarked Deals
+    public function bookmarkedDeals()
+    {
+        return $this->belongsToMany(Deal::class, 'deal_user_bookmarks')->withTimestamps();
     }
 
     // Offers made by this user (if buyer)

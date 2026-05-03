@@ -53,3 +53,80 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatContainer = document.querySelector('.overflow-y-auto');
+        let lastId = {{ $messages->last() ? $messages->last()->id : 0 }};
+        const currentUserId = {{ Auth::id() }};
+        const dealId = {{ $deal->id }};
+        
+        // Scroll to bottom initially
+        if(chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        function fetchLatestMessages() {
+            fetch(`/deals/${dealId}/messages/latest?last_id=${lastId}`)
+                .then(response => response.json())
+                .then(messages => {
+                    if (messages.length > 0) {
+                        messages.forEach(msg => {
+                            const isMine = msg.sender_id === currentUserId;
+                            const time = new Date(msg.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                            
+                            const div = document.createElement('div');
+                            div.className = `flex ${isMine ? 'justify-end' : 'justify-start'}`;
+                            
+                            div.innerHTML = `
+                                <div class="max-w-[70%]">
+                                    <div class="flex items-center mb-1 ${isMine ? 'justify-end' : 'justify-start'}">
+                                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">${msg.sender.name}</span>
+                                        <span class="text-[9px] text-slate-300 ml-2">${time}</span>
+                                    </div>
+                                    <div class="p-4 rounded-2xl text-sm shadow-sm ${isMine ? 'bg-blue-600 text-white rounded-tr-none' : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none'}">
+                                        ${msg.content}
+                                    </div>
+                                </div>
+                            `;
+                            
+                            // Remove placeholder if exists
+                            const placeholder = chatContainer.querySelector('.fa-comments');
+                            if(placeholder) placeholder.parentElement.remove();
+                            
+                            chatContainer.appendChild(div);
+                            lastId = msg.id;
+                        });
+                        
+                        // Scroll to bottom
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }
+                })
+                .catch(err => console.error('Error fetching messages', err));
+        }
+
+        // Poll every 3 seconds
+        setInterval(fetchLatestMessages, 3000);
+        
+        // Handle form submit via AJAX
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = form.querySelector('input[name="content"]');
+            const content = input.value;
+            input.value = '';
+            
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ content: content })
+            }).then(() => {
+                fetchLatestMessages();
+            });
+        });
+    });
+</script>
+@endpush

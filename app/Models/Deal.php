@@ -19,6 +19,9 @@ class Deal extends Model
         'net_profit',
         'growth_percentage',
         'valuation',
+        'equity_offered',
+        'reason_for_sale',
+        'future_plans',
         'location',
         'deal_type',
         'status',
@@ -59,5 +62,11 @@ class Deal extends Model
     public function documents(): MorphMany
     {
         return $this->morphMany(Document::class, 'documentable');
+    }
+
+    // Users who bookmarked this deal
+    public function bookmarkedBy()
+    {
+        return $this->belongsToMany(User::class, 'deal_user_bookmarks')->withTimestamps();
     }
 }

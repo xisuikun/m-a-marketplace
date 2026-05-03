@@ -19,13 +19,26 @@
                 <option value="Healthcare" <?php echo e(request('industry') == 'Healthcare' ? 'selected' : ''); ?>>Healthcare</option>
             </select>
 
-            <input type="text" name="location" value="<?php echo e(request('location')); ?>" placeholder="Location..." class="px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm w-40">
+            <select name="deal_type" class="px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white text-sm">
+                <option value="">Any Deal Type</option>
+                <option value="sale_100" <?php echo e(request('deal_type') == 'sale_100' ? 'selected' : ''); ?>>100% Acquisition</option>
+                <option value="partial_sale" <?php echo e(request('deal_type') == 'partial_sale' ? 'selected' : ''); ?>>Partial Sale</option>
+                <option value="fundraising" <?php echo e(request('deal_type') == 'fundraising' ? 'selected' : ''); ?>>Fundraising</option>
+            </select>
+
+            <input type="text" name="location" value="<?php echo e(request('location')); ?>" placeholder="Location..." class="px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm w-32">
+            
+            <div class="flex items-center gap-2">
+                <input type="number" name="min_price" value="<?php echo e(request('min_price')); ?>" placeholder="Min $..." class="px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm w-28">
+                <span class="text-slate-400">-</span>
+                <input type="number" name="max_price" value="<?php echo e(request('max_price')); ?>" placeholder="Max $..." class="px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm w-28">
+            </div>
 
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-blue-700 transition shadow-sm">
                 Apply Filters
             </button>
             
-            <?php if(request()->anyFilled(['search', 'industry', 'location'])): ?>
+            <?php if(request()->anyFilled(['search', 'industry', 'location', 'deal_type', 'min_price', 'max_price'])): ?>
                 <a href="/" class="text-slate-400 hover:text-slate-600 text-xs font-bold underline">Reset</a>
             <?php endif; ?>
         </form>

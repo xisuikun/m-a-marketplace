@@ -24,6 +24,22 @@ class MessageController extends Controller
         return view('messages.show', compact('deal', 'messages'));
     }
 
+    public function latest(Request $request, Deal $deal)
+    {
+        $lastId = $request->query('last_id', 0);
+        $messages = Message::where('deal_id', $deal->id)
+            ->where('id', '>', $lastId)
+            ->where(function($query) {
+                $query->where('sender_id', Auth::id())
+                      ->orWhere('receiver_id', Auth::id());
+            })
+            ->with(['sender'])
+            ->oldest()
+            ->get();
+
+        return response()->json($messages);
+    }
+
     public function store(Request $request, Deal $deal)
     {
         $request->validate([

@@ -8,22 +8,22 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="bg-white p-6 rounded-2xl border border-slate-200">
             <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Total Users</p>
-            <p class="text-3xl font-black mt-2">1,280</p>
-            <p class="text-xs text-emerald-500 font-bold mt-1">+12% this month</p>
+            <p class="text-3xl font-black mt-2"><?php echo e(number_format($totalUsers)); ?></p>
+            <p class="text-xs text-emerald-500 font-bold mt-1">Platform wide</p>
         </div>
         <div class="bg-white p-6 rounded-2xl border border-slate-200">
             <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Active Deals</p>
-            <p class="text-3xl font-black mt-2">84</p>
-            <p class="text-xs text-slate-400 font-bold mt-1">$450M Total Vol.</p>
+            <p class="text-3xl font-black mt-2"><?php echo e(number_format($activeDeals)); ?></p>
+            <p class="text-xs text-slate-400 font-bold mt-1">Currently listed</p>
         </div>
         <div class="bg-white p-6 rounded-2xl border border-slate-200">
             <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">Pending KYC</p>
-            <p class="text-3xl font-black mt-2 text-orange-600">15</p>
+            <p class="text-3xl font-black mt-2 text-orange-600"><?php echo e(number_format($pendingKyc)); ?></p>
             <p class="text-xs text-slate-400 font-bold mt-1">Require Action</p>
         </div>
         <div class="bg-white p-6 rounded-2xl border border-slate-200">
             <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">NDAs Signed</p>
-            <p class="text-3xl font-black mt-2">342</p>
+            <p class="text-3xl font-black mt-2"><?php echo e(number_format($ndasSigned)); ?></p>
             <p class="text-xs text-slate-400 font-bold mt-1">System wide</p>
         </div>
     </div>
@@ -32,26 +32,20 @@
         <div class="bg-white p-8 rounded-2xl border border-slate-200">
             <h2 class="text-xl font-bold mb-6 font-mono text-slate-900">PENDING APPROVALS</h2>
             <div class="space-y-4">
+                <?php $__empty_1 = true; $__currentLoopData = $pendingDeals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pendingDeal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
                     <div>
-                        <p class="font-bold text-sm">FinTech SaaS Platform</p>
-                        <p class="text-xs text-slate-400">Seller: John Doe • $4.5M</p>
+                        <p class="font-bold text-sm"><?php echo e($pendingDeal->title); ?></p>
+                        <p class="text-xs text-slate-400">Seller: <?php echo e($pendingDeal->company->seller->name ?? 'Unknown'); ?> • $<?php echo e(number_format($pendingDeal->asking_price)); ?></p>
                     </div>
                     <div class="flex gap-2">
                         <button class="bg-emerald-600 text-white px-3 py-1 rounded text-[10px] font-bold">APPROVE</button>
                         <button class="bg-white border border-slate-200 text-slate-400 px-3 py-1 rounded text-[10px] font-bold">REJECT</button>
                     </div>
                 </div>
-                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
-                    <div>
-                        <p class="font-bold text-sm">Solar Farm Project</p>
-                        <p class="text-xs text-slate-400">Seller: Jane Smith • $12M</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button class="bg-emerald-600 text-white px-3 py-1 rounded text-[10px] font-bold">APPROVE</button>
-                        <button class="bg-white border border-slate-200 text-slate-400 px-3 py-1 rounded text-[10px] font-bold">REJECT</button>
-                    </div>
-                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                <p class="text-slate-400 text-sm italic">No deals pending approval.</p>
+                <?php endif; ?>
             </div>
         </div>
 

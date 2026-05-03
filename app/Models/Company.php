@@ -16,6 +16,9 @@ class Company extends Model
         'description',
         'website',
         'registration_number',
+        'is_public',
+        'location',
+        'social_links',
     ];
 
     // The seller who owns this company

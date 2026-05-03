@@ -74,12 +74,36 @@
             <div class="bg-slate-900 text-white p-8 rounded-2xl">
                 <h3 class="font-bold text-lg mb-4">Ready to Acquire?</h3>
                 <p class="text-slate-400 text-sm mb-6 leading-relaxed">Our AI-powered matching engine suggests deals based on your acquisition criteria.</p>
+                @if($suggestedDeal)
                 <div class="p-4 bg-slate-800 rounded-xl mb-4 border border-slate-700">
                     <p class="text-[10px] text-blue-400 uppercase font-black mb-1">AI Suggestion</p>
-                    <p class="font-bold text-sm">FinTech Payment Gateway</p>
-                    <p class="text-xs text-slate-500 mt-1">EBITDA: $2M • EU Market</p>
+                    <p class="font-bold text-sm">{{ $suggestedDeal->title }}</p>
+                    <p class="text-xs text-slate-500 mt-1">EBITDA: ${{ number_format($suggestedDeal->ebitda) }} • {{ $suggestedDeal->location ?? 'Global' }}</p>
+                </div>
+                <a href="/deals/{{ $suggestedDeal->id }}" class="block w-full bg-blue-600 text-center py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition">View Suggested Deal</a>
+                @else
+                <div class="p-4 bg-slate-800 rounded-xl mb-4 border border-slate-700 text-center">
+                    <p class="text-slate-400 text-sm italic">No deals matching your criteria right now.</p>
                 </div>
                 <a href="/" class="block w-full bg-blue-600 text-center py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition">Search Marketplace</a>
+                @endif
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200">
+                <h3 class="font-bold text-slate-900 mb-4 flex items-center"><i class="fa fa-bookmark text-blue-500 mr-2"></i> Saved Deals</h3>
+                <div class="space-y-4">
+                    @forelse($bookmarkedDeals as $deal)
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-sm">{{ $deal->title }}</p>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold">{{ $deal->company->industry }}</p>
+                        </div>
+                        <a href="/deals/{{ $deal->id }}" class="text-blue-500 hover:text-blue-600"><i class="fa fa-arrow-right"></i></a>
+                    </div>
+                    @empty
+                    <p class="text-slate-400 text-sm italic text-center py-4">No deals saved yet.</p>
+                    @endforelse
+                </div>
             </div>
         </div>
     </div>

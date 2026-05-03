@@ -72,12 +72,36 @@
             <div class="bg-slate-900 text-white p-8 rounded-2xl">
                 <h3 class="font-bold text-lg mb-4">Ready to Acquire?</h3>
                 <p class="text-slate-400 text-sm mb-6 leading-relaxed">Our AI-powered matching engine suggests deals based on your acquisition criteria.</p>
+                <?php if($suggestedDeal): ?>
                 <div class="p-4 bg-slate-800 rounded-xl mb-4 border border-slate-700">
                     <p class="text-[10px] text-blue-400 uppercase font-black mb-1">AI Suggestion</p>
-                    <p class="font-bold text-sm">FinTech Payment Gateway</p>
-                    <p class="text-xs text-slate-500 mt-1">EBITDA: $2M • EU Market</p>
+                    <p class="font-bold text-sm"><?php echo e($suggestedDeal->title); ?></p>
+                    <p class="text-xs text-slate-500 mt-1">EBITDA: $<?php echo e(number_format($suggestedDeal->ebitda)); ?> • <?php echo e($suggestedDeal->location ?? 'Global'); ?></p>
+                </div>
+                <a href="/deals/<?php echo e($suggestedDeal->id); ?>" class="block w-full bg-blue-600 text-center py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition">View Suggested Deal</a>
+                <?php else: ?>
+                <div class="p-4 bg-slate-800 rounded-xl mb-4 border border-slate-700 text-center">
+                    <p class="text-slate-400 text-sm italic">No deals matching your criteria right now.</p>
                 </div>
                 <a href="/" class="block w-full bg-blue-600 text-center py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition">Search Marketplace</a>
+                <?php endif; ?>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200">
+                <h3 class="font-bold text-slate-900 mb-4 flex items-center"><i class="fa fa-bookmark text-blue-500 mr-2"></i> Saved Deals</h3>
+                <div class="space-y-4">
+                    <?php $__empty_1 = true; $__currentLoopData = $bookmarkedDeals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $deal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-sm"><?php echo e($deal->title); ?></p>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold"><?php echo e($deal->company->industry); ?></p>
+                        </div>
+                        <a href="/deals/<?php echo e($deal->id); ?>" class="text-blue-500 hover:text-blue-600"><i class="fa fa-arrow-right"></i></a>
+                    </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                    <p class="text-slate-400 text-sm italic text-center py-4">No deals saved yet.</p>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
     </div>

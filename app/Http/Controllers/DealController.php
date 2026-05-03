@@ -10,7 +10,7 @@ class DealController extends Controller
     public function index()
     {
         // Public/Buyer view (only active deals)
-        return Deal::where('status', 'active')->with('company')->get();
+        return Deal::where('status', 'published')->with('company')->get();
     }
 
     public function store(Request $request)

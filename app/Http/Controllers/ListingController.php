@@ -20,11 +20,14 @@ class ListingController extends Controller
         $request->validate([
             'company_name' => 'required|string|max:255',
             'industry' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
             'description' => 'required|string',
             'deal_title' => 'required|string|max:255',
+            'deal_type' => 'required|string',
             'asking_price' => 'required|numeric|min:0',
             'revenue_annual' => 'required|numeric|min:0',
             'ebitda' => 'required|numeric|min:0',
+            'net_profit' => 'nullable|numeric',
             'is_confidential' => 'boolean',
         ]);
 
@@ -33,6 +36,7 @@ class ListingController extends Controller
             'user_id' => Auth::id(),
             'name' => $request->company_name,
             'industry' => $request->industry,
+            'location' => $request->location,
             'description' => $request->description,
         ]);
 
@@ -41,13 +45,17 @@ class ListingController extends Controller
             'company_id' => $company->id,
             'title' => $request->deal_title,
             'teaser' => $request->description, // Using description as initial teaser
+            'deal_type' => $request->deal_type,
+            'location' => $request->location,
             'asking_price' => $request->asking_price,
             'revenue_annual' => $request->revenue_annual,
             'ebitda' => $request->ebitda,
-            'status' => 'active',
+            'net_profit' => $request->net_profit ?? 0,
+            'status' => 'submitted', // Under review automatically
             'is_confidential' => $request->has('is_confidential'),
         ]);
 
-        return redirect('/dashboard')->with('success', 'Your business listing has been published!');}
+        return redirect('/dashboard')->with('success', 'Your business listing has been submitted and is under review!');
+    }
 }
 

@@ -5,9 +5,9 @@
             <h1 class="text-3xl font-black text-slate-900">Seller Dashboard</h1>
             <p class="text-slate-500 mt-2">Manage your business listings and track investor interest.</p>
         </div>
-        <button class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition">
+        <a href="/listings/create" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition inline-flex items-center">
             <i class="fa fa-plus mr-2"></i> List New Business
-        </button>
+        </a>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -81,17 +81,23 @@
                     <div class="relative">
                         <div class="flex justify-between text-xs font-bold mb-1">
                             <span class="text-slate-400">Profile Completion</span>
-                            <span class="text-blue-600">85%</span>
+                            <span class="text-blue-600"><?php echo e($progress); ?>%</span>
                         </div>
                         <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
-                            <div class="bg-blue-600 h-full w-[85%]"></div>
+                            <div class="bg-blue-600 h-full" style="width: <?php echo e($progress); ?>%"></div>
                         </div>
                     </div>
                     <div>
                         <ul class="text-xs space-y-3">
-                            <li class="flex items-center text-emerald-600"><i class="fa fa-check-circle mr-2"></i> KYC Verified</li>
-                            <li class="flex items-center text-emerald-600"><i class="fa fa-check-circle mr-2"></i> Tax Records Uploaded</li>
-                            <li class="flex items-center text-slate-400"><i class="fa fa-circle mr-2 text-[8px]"></i> Upload Teaser PDF</li>
+                            <li class="flex items-center <?php echo e($isVerified ? 'text-emerald-600' : 'text-slate-400'); ?>">
+                                <i class="fa <?php echo e($isVerified ? 'fa-check-circle' : 'fa-circle text-[8px]'); ?> mr-2"></i> KYC Verified
+                            </li>
+                            <li class="flex items-center <?php echo e($hasCompany ? 'text-emerald-600' : 'text-slate-400'); ?>">
+                                <i class="fa <?php echo e($hasCompany ? 'fa-check-circle' : 'fa-circle text-[8px]'); ?> mr-2"></i> Company Profile Created
+                            </li>
+                            <li class="flex items-center <?php echo e($hasDeal ? 'text-emerald-600' : 'text-slate-400'); ?>">
+                                <i class="fa <?php echo e($hasDeal ? 'fa-check-circle' : 'fa-circle text-[8px]'); ?> mr-2"></i> Active Deal Listed
+                            </li>
                         </ul>
                     </div>
                 </div>

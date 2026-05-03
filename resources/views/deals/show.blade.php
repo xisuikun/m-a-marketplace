@@ -12,7 +12,19 @@
             </div>
             <div class="text-right">
                 <p class="text-sm text-slate-400 uppercase font-bold tracking-tighter">Asking Price</p>
-                <p class="text-4xl font-black text-blue-600">${{ number_format($deal->asking_price) }}</p>
+                <div class="flex items-center justify-end gap-4 mt-1">
+                    <p class="text-4xl font-black text-blue-600">${{ number_format($deal->asking_price) }}</p>
+                    @auth
+                        @if(auth()->user()->role === 'buyer')
+                        <form action="{{ route('deals.bookmark', $deal) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="p-2 rounded-full border border-slate-200 hover:bg-slate-50 {{ auth()->user()->bookmarkedDeals->contains($deal->id) ? 'text-blue-600' : 'text-slate-400' }}">
+                                <i class="fa fa-bookmark text-xl"></i>
+                            </button>
+                        </form>
+                        @endif
+                    @endauth
+                </div>
             </div>
         </div>
     </div>
@@ -55,27 +67,42 @@
                         <h2 class="text-xl font-bold text-emerald-900">Virtual Data Room (VDR)</h2>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="bg-white p-4 rounded-xl border border-emerald-100 flex items-center justify-between">
-                            <div class="flex items-center">
-                                <i class="fa fa-file-pdf text-red-500 text-2xl mr-3"></i>
-                                <div>
-                                    <p class="font-bold text-sm">Full Financial Audit 2025.pdf</p>
-                                    <p class="text-[10px] text-slate-400">12.5 MB • PDF</p>
+                    <div class="space-y-6">
+                        @php
+                            $groupedDocuments = $deal->documents->where('is_private', true)->groupBy('folder_name');
+                        @endphp
+                        
+                        @forelse($groupedDocuments as $folder => $documents)
+                        <div>
+                            <h3 class="text-sm font-bold text-emerald-800 uppercase tracking-widest mb-3 flex items-center"><i class="fa fa-folder text-emerald-500 mr-2"></i> {{ $folder }}</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                @foreach($documents as $document)
+                                <div class="bg-white p-4 rounded-xl border border-emerald-100 flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        @if(str_contains($document->file_type, 'pdf'))
+                                            <i class="fa fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                                        @elseif(str_contains($document->file_type, 'word') || str_contains($document->file_type, 'doc'))
+                                            <i class="fa fa-file-word text-blue-500 text-2xl mr-3"></i>
+                                        @elseif(str_contains($document->file_type, 'excel') || str_contains($document->file_type, 'xls'))
+                                            <i class="fa fa-file-excel text-emerald-500 text-2xl mr-3"></i>
+                                        @else
+                                            <i class="fa fa-file text-slate-500 text-2xl mr-3"></i>
+                                        @endif
+                                        <div>
+                                            <p class="font-bold text-sm">{{ $document->title }}</p>
+                                            <p class="text-[10px] text-slate-400">{{ number_format($document->file_size / 1024, 1) }} KB • {{ strtoupper($document->file_type) }}</p>
+                                        </div>
+                                    </div>
+                                    <a href="/storage/{{ $document->file_path }}" target="_blank" class="text-slate-400 hover:text-emerald-600"><i class="fa fa-download"></i></a>
                                 </div>
+                                @endforeach
                             </div>
-                            <button class="text-slate-400 hover:text-emerald-600"><i class="fa fa-download"></i></button>
                         </div>
-                        <div class="bg-white p-4 rounded-xl border border-emerald-100 flex items-center justify-between">
-                            <div class="flex items-center">
-                                <i class="fa fa-file-word text-blue-500 text-2xl mr-3"></i>
-                                <div>
-                                    <p class="font-bold text-sm">Employee Contracts.docx</p>
-                                    <p class="text-[10px] text-slate-400">2.1 MB • DOCX</p>
-                                </div>
-                            </div>
-                            <button class="text-slate-400 hover:text-emerald-600"><i class="fa fa-download"></i></button>
+                        @empty
+                        <div class="text-center py-4 text-emerald-800 text-sm italic">
+                            No documents uploaded to this data room yet.
                         </div>
+                        @endforelse
                     </div>
 
                     <div class="mt-8">
@@ -117,33 +144,19 @@
             <div class="bg-white p-6 rounded-2xl border border-slate-200">
                 <h3 class="font-bold text-slate-900 mb-4 uppercase tracking-widest text-xs">Ownership Structure</h3>
                 <div class="space-y-4">
+                    @forelse($deal->company->shareholders as $shareholder)
                     <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-500">Founder(s)</span>
+                        <span class="text-slate-500">{{ $shareholder->name }} ({{ $shareholder->type }})</span>
                         <div class="flex items-center">
                             <div class="w-24 h-2 bg-slate-100 rounded-full mr-2 overflow-hidden">
-                                <div class="bg-blue-600 h-full w-[65%]"></div>
+                                <div class="bg-blue-600 h-full" style="width: {{ $shareholder->ownership_percentage }}%"></div>
                             </div>
-                            <span class="font-bold">65%</span>
+                            <span class="font-bold">{{ $shareholder->ownership_percentage }}%</span>
                         </div>
                     </div>
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-500">Angel Investors</span>
-                        <div class="flex items-center">
-                            <div class="w-24 h-2 bg-slate-100 rounded-full mr-2 overflow-hidden">
-                                <div class="bg-blue-600 h-full w-[25%]"></div>
-                            </div>
-                            <span class="font-bold">25%</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-500">ESOP</span>
-                        <div class="flex items-center">
-                            <div class="w-24 h-2 bg-slate-100 rounded-full mr-2 overflow-hidden">
-                                <div class="bg-blue-600 h-full w-[10%]"></div>
-                            </div>
-                            <span class="font-bold">10%</span>
-                        </div>
-                    </div>
+                    @empty
+                    <p class="text-slate-400 text-sm italic">Ownership structure not disclosed.</p>
+                    @endforelse
                 </div>
             </div>
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Nda extends Model
 {
-    protected $fillable = ['deal_id', 'user_id', 'status', 'signed_at', 'file_path'];
+    protected $fillable = ['deal_id', 'user_id', 'status', 'signed_at', 'file_path', 'ip_address'];
 
     protected $casts = [
         'signed_at' => 'datetime',

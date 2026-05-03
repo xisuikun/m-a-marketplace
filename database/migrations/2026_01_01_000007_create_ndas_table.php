@@ -15,6 +15,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'signed', 'rejected'])->default('pending');
             $table->timestamp('signed_at')->nullable();
             $table->string('file_path')->nullable(); // Signed document path
+            $table->string('ip_address')->nullable(); // Digital stamp IP
             $table->timestamps();
         });
     }

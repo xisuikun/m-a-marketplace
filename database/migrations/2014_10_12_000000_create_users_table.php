@@ -19,7 +19,9 @@ return new class extends Migration
             // KYC Fields
             $table->boolean('is_verified')->default(false);
             $table->string('passport_id')->nullable();
+            $table->timestamp('face_verified_at')->nullable();
             $table->string('linkedin_url')->nullable();
+            $table->string('country')->nullable();
             
             $table->rememberToken();
             $table->timestamps();

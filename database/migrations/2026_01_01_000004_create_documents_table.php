@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('file_path');
             $table->string('file_type');
             $table->bigInteger('file_size');
+            $table->string('folder_name')->default('General'); // Legal, Financial, HR, General
             $table->boolean('is_private')->default(true); // Private for Data Room
             $table->timestamps();
         });

@@ -14,6 +14,7 @@ class Document extends Model
         'file_path',
         'file_type',
         'file_size',
+        'folder_name',
         'is_private',
     ];
 
